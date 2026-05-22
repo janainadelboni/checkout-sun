@@ -10,12 +10,8 @@ const projectRoot = fileURLToPath(new URL('.', import.meta.url))
 // Eduzz Design System tokens — populated by `pnpm sync-tokens`
 const designTokensSrc = resolve(homedir(), '.design-tokens-cache/src')
 
-// Vercel serves at the root domain; GitHub Pages and local dev serve under the repo subpath.
-const base = process.env.VERCEL ? '/' : '/checkout-sun-novo-admin/'
-
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base,
   resolve: {
     alias: {
       '@eduzz/design-tokens': designTokensSrc,

@@ -139,6 +139,8 @@ export default function PaginaDoPixel({ provider = 'ga4', onVoltar, onNavigate }
   const handleTestarEvento = (eventoName: string, gatilho?: 'pageview' | 'button') => {
     const origens = ['Navegador', 'Servidor'] as const
     const statuses = ['Sucesso', 'Sucesso', 'Sucesso', 'Erro'] as const // 75% sucesso
+    // Event handler — Math.random é OK fora do render; a regra react-hooks/purity não distingue.
+    /* eslint-disable react-hooks/purity */
     const novoResult = {
       evento: eventoName,
       origem: origens[Math.floor(Math.random() * origens.length)],
@@ -147,6 +149,7 @@ export default function PaginaDoPixel({ provider = 'ga4', onVoltar, onNavigate }
       status: statuses[Math.floor(Math.random() * statuses.length)],
       gatilho,
     }
+    /* eslint-enable react-hooks/purity */
     setTestResults((prev) => [novoResult, ...prev])
     setTestHighlight(true)
     setTimeout(() => {

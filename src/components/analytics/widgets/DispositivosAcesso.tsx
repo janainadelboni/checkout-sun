@@ -3,12 +3,13 @@ import { Typography, Table, Tooltip } from 'antd'
 
 
 function PieChart({ segments, size = 160 }: { segments: { percent: number; color: string; label: string; tooltip?: string }[]; size?: number }) {
-  const cx = size / 2; const cy = size / 2; const r = size / 2 - 10; let cum = 0
+  const cx = size / 2; const cy = size / 2; const r = size / 2 - 10
+  const cumEnds = segments.reduce<number[]>((acc, seg) => [...acc, (acc.at(-1) ?? 0) + seg.percent], [])
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       {segments.map((seg, i) => {
-        const s = cum * 3.6 * (Math.PI / 180); cum += seg.percent
-        const e = cum * 3.6 * (Math.PI / 180); const la = seg.percent > 50 ? 1 : 0
+        const s = (cumEnds[i - 1] ?? 0) * 3.6 * (Math.PI / 180)
+        const e = cumEnds[i] * 3.6 * (Math.PI / 180); const la = seg.percent > 50 ? 1 : 0
         const x1 = cx + r * Math.cos(s - Math.PI / 2); const y1 = cy + r * Math.sin(s - Math.PI / 2)
         const x2 = cx + r * Math.cos(e - Math.PI / 2); const y2 = cy + r * Math.sin(e - Math.PI / 2)
         return (

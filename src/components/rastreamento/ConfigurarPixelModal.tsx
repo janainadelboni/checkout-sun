@@ -96,21 +96,6 @@ const produtosTree = [
   ]},
 ]
 
-// Helper: extrai todos os IDs numéricos (folhas) dos valores selecionados no tree
-const getAllLeafValues = (nodes: typeof produtosTree, selected: string[]): number[] => {
-  const ids: number[] = []
-  for (const node of nodes) {
-    if (selected.includes(node.value)) {
-      const num = Number(node.value)
-      if (!isNaN(num)) ids.push(num)
-    }
-    if ('children' in node && node.children) {
-      ids.push(...getAllLeafValues(node.children as typeof produtosTree, selected))
-    }
-  }
-  return ids
-}
-
 // Helper: nome do produto por value
 const getNodeTitle = (nodes: typeof produtosTree, value: string): string | undefined => {
   for (const node of nodes) {
